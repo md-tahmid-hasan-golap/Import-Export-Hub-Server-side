@@ -94,6 +94,17 @@ async function run() {
 
 
 
+       app.put('/updateProducts/:id', async(req, res) => {
+        const id = req.params.id;
+        const newProducts = req.body;
+        const filter = {_id: new ObjectId(id)}
+        const updateDoc = {
+            $set: newProducts
+        }
+        const result = await productCollaction.updateOne(filter, updateDoc)
+        res.send(result)
+       })
+
 
 
 
