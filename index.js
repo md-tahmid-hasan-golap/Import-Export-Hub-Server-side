@@ -82,7 +82,16 @@ async function run() {
        })
 
 
-       
+
+
+        app.delete('/products-delete/:id', async(req, res) => {
+        const id = req.params.id;
+        const queary = {_id: new ObjectId(id)}
+        const result = await productCollaction.deleteOne(queary)
+        res.send(result)
+
+     })
+
 
 
 
