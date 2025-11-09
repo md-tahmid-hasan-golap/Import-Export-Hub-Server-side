@@ -66,8 +66,23 @@ async function run() {
 
      })
 
+      app.get('/allProducts', async(req, res) => {
+        const result = await productCollaction.find().toArray()
+        res.send(result)
+      })
 
 
+
+
+       app.get('/myProducts/:email', async(req, res) => {
+        const email = req.params.email
+        const queary = {email}
+        const result = await productCollaction.find(queary).toArray()
+        res.send(result)
+       })
+
+
+       
 
 
 
