@@ -43,6 +43,7 @@ async function run() {
 
     // all collaction
     const productCollaction = client.db("productDB").collection("products")
+    const importCollection = client.db("productDB").collection("imports");
 
 
     app.post('/products', async(req, res) => {
@@ -50,6 +51,20 @@ async function run() {
         const result = await productCollaction.insertOne(newProduct);
         res.send(result);
     })
+
+  
+
+       app.post("/imports", (req, res) => {
+       const newImport = req.body;
+       importCollection.insertOne(newImport)
+        .then(result => {
+         res.send(result); // insertId thakle front-end e success show korbe
+        })
+        .catch(err => {
+           res.status(500).send({ error: "Failed to import product" });
+          });
+          });
+
     
 
     app.get('/letestProduct', async(req, res) => {
