@@ -54,18 +54,27 @@ async function run() {
 
   
 
-       app.post("/imports", (req, res) => {
-       const newImport = req.body;
-       importCollection.insertOne(newImport)
-        .then(result => {
-         res.send(result); // insertId thakle front-end e success show korbe
-        })
-        .catch(err => {
-           res.status(500).send({ error: "Failed to import product" });
-          });
-          });
+      app.post('/imports', async (req, res) => {
+      const newImport = req.body;
+      const result = await importCollection.insertOne(newImport);
+      res.send(result);
 
+         });
+
+
+         app.get('/myImports', async(req, res) => {
+            const result = await importCollection.find().toArray()
+            res.send(result)
+         })
     
+
+          app.delete('/import-delete/:id', async(req, res) => {
+        const id = req.params.id;
+        const queary = {_id: new ObjectId(id)}
+        const result = await importCollection.deleteOne(queary)
+        res.send(result)
+
+        })
 
     app.get('/letestProduct', async(req, res) => {
         const result = await productCollaction.find().sort({createdAt: -1}).limit(6).toArray()
